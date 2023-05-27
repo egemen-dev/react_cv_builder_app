@@ -1,3 +1,5 @@
+import Input from "./components/Input";
+
 function App() {
   return (
     <div>
@@ -15,6 +17,8 @@ function App() {
         <li>A button to download your CV in PDF format</li>
         <li>A button to reset the CV</li>
       </ul>
+
+      <Input id="name" label="Name" type="text" />
     </div>
   );
 }
