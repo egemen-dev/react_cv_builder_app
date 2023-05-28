@@ -1,12 +1,18 @@
-export default function Input(props) {
+export default function Input({ label, placeholder, cvId, type = "text" }) {
+  function onChange(e) {
+    console.log((document.getElementById(cvId).textContent = e.target.value));
+  }
+
   return (
-    <div>
-      <label htmlFor={props.id}>{props.label}</label>
+    <div className="form-control col-span-1 w-full">
+      <label className="label">
+        <span className="label-text">{label}</span>
+      </label>
       <input
-        id={props.id}
-        type={props.type}
-        value={props.value}
-        onChange={props.onChange}
+        type={type}
+        placeholder={placeholder}
+        className="input input-bordered w-full"
+        onChange={onChange}
       />
     </div>
   );
