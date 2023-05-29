@@ -1,141 +1,171 @@
-import Input from "./components/Input";
-import Textarea from "./components/Textarea";
 import "./styles/style.css";
+import Input from "./components/Input";
+import Button from "./components/Button";
+import Textarea from "./components/Textarea";
+import CvHeader from "./components/cv/Header";
+import Section from "./components/cv/Section";
+import CollapsibleCard from "./components/CollapsibleCard";
+import WorkInputSection from "./components/WorkInputSection";
+import EducationInputSection from "./components/EducationInputSection";
+import { useState } from "react";
 
 function App() {
+  const [workSections, setWorkSections] = useState([]);
+  const [educationSections, setEducationSections] = useState([]);
+  const [name, setName] = useState("John Doe");
+  const [mail, setMail] = useState("example@mail.com");
+  const [phone, setPhone] = useState("0123456789");
+  const [website, setWebsite] = useState("linkedin / github");
+  const [skills, setSkills] = useState("JavaScript, React, HTML, CSS");
+
+  const baseSection = {
+    title: "Title",
+    subTitle: "SubTitle",
+    details: "Details",
+    from: "2020-01-01",
+    until: "2020-01-01",
+  };
+
   return (
     <div>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-11/12 md:w-3/4 mx-auto py-6">
-        <div class="flex flex-col gap-4 non-printable">
-          <div
-            tabIndex={0}
-            className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box shadow-sm"
-          >
-            <div className="collapse-title text-xl font-medium">General Information</div>
-            <input type="checkbox" />
-            <div className="collapse-content collapse-open grid grid-cols-2 gap-4">
-              <Input label="Name" placeholder="John Doe" cvId="name" />
-              <Input label="Email" placeholder="mail@example.com" cvId="mail" />
-              <Input
-                label="Phone number"
-                type="tel"
-                placeholder="0123456789"
-                cvId="phone"
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-11/12 md:w-3/4 mx-auto py-6">
+        <div className="flex flex-col gap-4 non-printable">
+          <CollapsibleCard title="General Info">
+            <Input
+              label="Name"
+              placeholder="John Doe"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Input
+              label="Email"
+              placeholder="mail@example.com"
+              onChange={(e) => setMail(e.target.value)}
+            />
+            <Input
+              label="Phone number"
+              type="tel"
+              placeholder="0123456789"
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+            />
+            <Input
+              label="Website"
+              placeholder="linkedin / github"
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </CollapsibleCard>
+
+          <CollapsibleCard title="Education">
+            {educationSections.map((_item, index) => (
+              <>
+                <hr className="col-span-2 border-b-1 my-4 border-black dark:border-white" />
+                <EducationInputSection
+                  index={index}
+                  educationSections={educationSections}
+                  setEducationSections={setEducationSections}
+                />
+              </>
+            ))}
+
+            <Button
+              label="Add More"
+              sectionName="education"
+              onClick={() => setEducationSections([...educationSections, baseSection])}
+            />
+            {educationSections.length > 1 && (
+              <Button
+                label="Remove"
+                sectionName="education"
+                onClick={() => setEducationSections(educationSections.slice(0, -1))}
               />
-              <Input label="Website" placeholder="linkedin / github" cvId="website" />
-            </div>
-          </div>
+            )}
+          </CollapsibleCard>
 
-          <div
-            tabIndex={0}
-            className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box shadow-sm"
-          >
-            <div className="collapse-title text-xl font-medium">Education</div>
-            <input type="checkbox" />
-            <div className="collapse-content collapse-open grid grid-cols-2 gap-4">
-              <Input label="School name" placeholder="Harvard" />
-              <Input label="Title of study" placeholder="Computer Science" />
-              <Input label="From" type="date" />
-              <Input label="Until" type="date" />
-              <div className="col-span-2 flex justify-end">
-                <button class="btn btn-outline btn-primary">Add More</button>
-              </div>{" "}
-            </div>
-          </div>
+          <CollapsibleCard title="Work Experience">
+            {workSections.map((_item, index) => (
+              <>
+                <hr className="col-span-2 border-b-1 my-4 border-black dark:border-white" />
+                <WorkInputSection
+                  index={index}
+                  workSections={workSections}
+                  setWorkSections={setWorkSections}
+                />
+              </>
+            ))}
 
-          <div
-            tabIndex={0}
-            className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box shadow-sm"
-          >
-            <div className="collapse-title text-xl font-medium">Work Experience</div>
-            <input type="checkbox" />
-            <div className="collapse-content collapse-open grid grid-cols-2 gap-4">
-              <Input label="Company name" placeholder="Google" />
-              <Input label="Position title" placeholder="Software Engineer" />
-              <Input label="From" type="date" />
-              <Input label="Until" type="date" />
-              <Textarea label="Main tasks" placeholder="Developing software" />
-              <div className="col-span-2 flex justify-end">
-                <button class="btn btn-outline btn-primary">Add More</button>
-              </div>{" "}
-            </div>
-          </div>
+            <Button
+              label="Add More"
+              sectionName="work"
+              onClick={() => setWorkSections([...workSections, baseSection])}
+            />
+            {workSections > 1 && (
+              <Button
+                label="Remove"
+                sectionName="work"
+                onClick={() => setWorkSections(workSections.slice(0, -1))}
+              />
+            )}
+          </CollapsibleCard>
 
-          <div
-            tabIndex={0}
-            className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box shadow-sm"
-          >
-            <div className="collapse-title text-xl font-medium">Skills</div>
-            <input type="checkbox" />
-            <div className="collapse-content collapse-open grid grid-cols-2 gap-4">
-              <Input placeholder="HTML/CSS" />
-              <Input placeholder="JavaScript" />
-              <div className="col-span-2 flex justify-end">
-                <button class="btn btn-outline btn-primary">Add More</button>
-              </div>
-            </div>
+          <CollapsibleCard title="Skills">
+            <Textarea
+              placeholder="HTML, CSS, JavaScript, Ruby, React"
+              onChange={(e) => setSkills(e.target.value)}
+            />
+          </CollapsibleCard>
+
+          <div className="grid grid-cols-1 non-printable">
+            <Button
+              label="Download PDF"
+              className="btn dark:btn-outline btn-success w-full"
+              onClick={() => {
+                window.print();
+              }}
+            />
           </div>
         </div>
-        <div className="p-6 grid grid-cols-1 w-full gap-6 min-h-content max-h-content printable">
-          <section id="generalInfo">
-            <h1 id="name" className="flex justify-center w-full text-5xl pb-6">
-              John Doe
-            </h1>
-            <div class="flex gap-3 justify-center">
-              <p id="mail">mail@mail.com</p>
-              <p id="phone">0123456789</p>
-              <p id="website">linkedin / github</p>
-            </div>
-          </section>
+
+        {/* Downloadable CV Starts here */}
+
+        <div className="py-2 grid grid-cols-1 w-full gap-6 min-h-content max-h-content printable">
+          <CvHeader name={name} mail={mail} phone={phone} website={website} />
           <section>
-            <h2 className="text-3xl pb-3">Education</h2>
-            <div className="flex flex-col">
-              <div className="flex justify-between">
-                <p className="font-bold">Harvard</p>
-                <div className="flex gap-3">
-                  <p>2010</p>
-                  <p>2014</p>
-                </div>
-              </div>
-              <div className="flex gap-3"></div>
-              <p>Computer Science</p>
-            </div>
+            <h2 className="text-3xl">Education</h2>
+
+            {educationSections.map((state, index) => (
+              <Section
+                key={index}
+                title={state.title}
+                subTitle={state.subTitle}
+                details={state.details}
+                from={state.from}
+                until={state.until}
+              />
+            ))}
           </section>
-          <span className="border-b-2 border-black dark:border-white"></span>
+          <hr className="border-b-2 border-black dark:border-white" />
           <section>
-            <h2 className="text-3xl pb-3">Work Experience</h2>
-            <div className="flex flex-col">
-              <div className="flex justify-between">
-                <p className="font-bold">Google</p>
-                <div className="flex gap-3">
-                  <p>2014</p>
-                  <p>2018</p>
-                </div>
-              </div>
-              <div className="flex gap-3"></div>
-              <p>Software Engineer</p>
-              <p>Developing software</p>
-            </div>
+            <h2 className="text-3xl pt-3">Work Experience</h2>
+
+            {workSections.map((state, index) => (
+              <Section
+                key={index}
+                title={state.title}
+                subTitle={state.subTitle}
+                details={state.details}
+                from={state.from}
+                until={state.until}
+              />
+            ))}
           </section>
-          <span className="border-b-2 border-black dark:border-white"></span>
+          <hr className="border-b-2 border-black dark:border-white" />
           <section>
-            <h2 className="text-3xl pb-3">Skills</h2>
+            <h2 className="text-3xl py-3">Skills</h2>
             <div className="flex flex-col gap-3">
-              <p>HTML/CSS</p>
-              <p>JavaScript</p>
+              <p>{skills}</p>
             </div>
           </section>
-        </div>
-        <div className="grid grid-cols-1 non-printable">
-          <button
-            className="btn dark:btn-outline btn-success"
-            onClick={() => {
-              // print cv div
-              window.print();
-            }}
-          >
-            Download PDF
-          </button>
         </div>
       </div>
     </div>
