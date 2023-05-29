@@ -1,8 +1,4 @@
-export default function Input({ label, placeholder, cvId, type = "text" }) {
-  function onChange(e) {
-    console.log((document.getElementById(cvId).textContent = e.target.value));
-  }
-
+export default function Input({ label, placeholder, type, onChange }) {
   return (
     <div className="form-control col-span-1 w-full">
       <label className="label">

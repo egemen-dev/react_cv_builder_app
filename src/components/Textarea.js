@@ -1,4 +1,4 @@
-export default function Textarea({ label, placeholder }) {
+export default function Textarea({ label, placeholder, onChange }) {
   return (
     <div className="form-control w-full col-span-2">
       <label className="label">
@@ -7,6 +7,7 @@ export default function Textarea({ label, placeholder }) {
       <textarea
         className="textarea textarea-bordered h-36"
         placeholder={placeholder}
+        onChange={onChange}
       ></textarea>
     </div>
   );
