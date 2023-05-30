@@ -6,9 +6,17 @@
     display: block;
   }
 
+  .border-gray-300 {
+    border-color: #ffffff;
+  }
+
+  dark:border-gray-600 {
+    border-color: #ffffff;
+  }
+
   @page {
-    margin-left: 0.5in;
-    margin-right: 0.5in;
+    margin-left: 0.1in;
+    margin-right: 0.1in;
     margin-top: 0;
     margin-bottom: 0;
   }
