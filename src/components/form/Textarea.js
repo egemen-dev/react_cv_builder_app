@@ -1,6 +1,6 @@
-export default function Textarea({ label, placeholder, onChange }) {
+export default function Textarea({ index, label, placeholder, onChange }) {
   return (
-    <div className="form-control w-full col-span-2">
+    <div key={index} className="form-control w-full col-span-2">
       <label className="label">
         <span className="label-text">{label}</span>
       </label>

@@ -10,30 +10,10 @@ import InputSection from "./components/form/InputSection";
 import CollapsibleCard from "./components/form/CollapsibleCard";
 
 function App() {
+  const dummyExample = { ...dummy };
   const [workSection, setWorkSection] = useState([]);
   const [educationSection, setEducationSection] = useState([]);
-  const [name, setName] = useState(dummy.name);
-  const [mail, setMail] = useState(dummy.mail);
-  const [phone, setPhone] = useState(dummy.phone);
-  const [website, setWebsite] = useState(dummy.website);
-  const [projects, setProjects] = useState(dummy.projects);
-  const [skills, setSkills] = useState(dummy.skills);
-
-  const baseWorkSection = {
-    title: dummy.work.title,
-    subTitle: dummy.work.subTitle,
-    details: dummy.work.details,
-    from: dummy.work.from,
-    until: dummy.work.until,
-  };
-
-  const baseEducationSection = {
-    title: dummy.education.title,
-    subTitle: dummy.education.subTitle,
-    details: dummy.education.details,
-    from: dummy.education.from,
-    until: dummy.education.until,
-  };
+  const [cv, setCv] = useState(dummyExample);
 
   return (
     <div>
@@ -43,52 +23,52 @@ function App() {
             <Input
               label="Name"
               placeholder={dummy.name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setCv({ ...cv, name: e.target.value })}
             />
             <Input
               label="Email"
               placeholder={dummy.mail}
-              onChange={(e) => setMail(e.target.value)}
+              onChange={(e) => setCv({ ...cv, mail: e.target.value })}
             />
             <Input
               label="Phone number"
               placeholder={dummy.phone}
               onChange={(e) => {
-                setPhone(e.target.value);
+                setCv({ ...cv, phone: e.target.value });
               }}
             />
             <Input
               label="Website"
               placeholder={dummy.website}
-              onChange={(e) => setWebsite(e.target.value)}
+              onChange={(e) => setCv({ ...cv, website: e.target.value })}
             />
           </CollapsibleCard>
 
           <CollapsibleCard title="Education">
-            {educationSection.map((_item, index) => (
+            {cv.education.map((_item, index) => (
               <InputSection
                 index={index}
                 sectionName="education"
-                educationSection={educationSection} // getter state function
-                setEducationSection={setEducationSection} // setter state function
+                // educationSection={educationSection} // getter state function
+                // setEducationSection={setEducationSection} // setter state function
               />
             ))}
 
-            {educationSection.length > 0 && (
+            {cv.education.length > 0 && (
               <Button
-                label="Remove"
+                label="Remove Education"
                 sectionName="education"
                 className="btn btn-outline btn-outline col-span-full"
-                onClick={() => setEducationSection(educationSection.slice(0, -1))}
+                // onClick={() => setEducationSection([...cv.education].slice(0, -1))}
               />
             )}
             {educationSection.length < 4 && (
               <Button
-                label="Add More"
+                label="Add More Education"
                 sectionName="education"
-                onClick={() =>
-                  setEducationSection([...educationSection, baseEducationSection])
-                }
+                onClick={() => {
+                  // setEducationSection(...cv.education, dummyExample.education[0]);
+                }}
               />
             )}
           </CollapsibleCard>
@@ -98,24 +78,26 @@ function App() {
               <InputSection
                 index={index}
                 sectionName="work"
-                workSection={workSection} // getter state function
-                setWorkSection={setWorkSection} // setter state function
+                // workSection={workSection} // getter state function
+                // setWorkSection={setWorkSection} // setter state function
               />
             ))}
 
             {workSection.length > 0 && (
               <Button
-                label="Remove"
+                label="Remove Experience"
                 sectionName="work"
                 className="btn btn-outline btn-outline col-span-full"
-                onClick={() => setWorkSection(workSection.slice(0, -1))}
+                // onClick={() => setWorkSection([...workSection].slice(0, -1))}
               />
             )}
             {workSection.length < 4 && (
               <Button
-                label="Add More"
+                label="Add More Experience"
                 sectionName="work"
-                onClick={() => setWorkSection([...workSection, baseWorkSection])}
+                onClick={() => {
+                  // setWorkSection([...workSection, cv.work[0]]);
+                }}
               />
             )}
           </CollapsibleCard>
@@ -123,7 +105,7 @@ function App() {
           <CollapsibleCard title="Projects & Skills">
             <Textarea
               placeholder={dummy.skills}
-              onChange={(e) => setSkills(e.target.value)}
+              onChange={(e) => setCv({ ...cv, skills: e.target.value })}
             />
           </CollapsibleCard>
 
@@ -142,42 +124,33 @@ function App() {
 
         <div className="grid grid-cols-1 w-full gap-6 min-h-content max-h-content printable border-2 border-gray-300 dark:border-gray-600 p-6">
           <div className="flex flex-col justify-start">
-            <CvHeader name={name} mail={mail} phone={phone} website={website} />
-            <hr className="border-b-2.5 border-gray-400 dark:border-gray-600" />
+            <CvHeader
+              name={cv.name}
+              mail={cv.mail}
+              phone={cv.phone}
+              website={cv.website}
+            />
             <section>
               <h2 className="text-3xl py-2">Education</h2>
+              <hr className="border-b-2.5 border-gray-400 dark:border-gray-600" />
 
-              {educationSection.map((state, index) => (
-                <Section
-                  key={index}
-                  title={state.title}
-                  subTitle={state.subTitle}
-                  details={state.details}
-                  from={state.from}
-                  until={state.until}
-                />
+              {cv.education.map((education, index) => (
+                <Section index={index} experience={education} />
               ))}
             </section>
-            <hr className="border-b-2.5 border-gray-400 dark:border-gray-600" />
             <section>
               <h2 className="text-3xl py-2">Work Experience</h2>
+              <hr className="border-b-2.5 border-gray-400 dark:border-gray-600" />
 
-              {workSection.map((state, index) => (
-                <Section
-                  key={index}
-                  title={state.title}
-                  subTitle={state.subTitle}
-                  details={state.details}
-                  from={state.from}
-                  until={state.until}
-                />
+              {workSection.map((work, index) => (
+                <Section index={index} experience={work} />
               ))}
             </section>
-            <hr className="border-b-2.5 border-gray-400 dark:border-gray-600" />
             <section>
               <h2 className="text-3xl py-2">Projects & Skills</h2>
+              <hr className="border-b-2.5 border-gray-400 dark:border-gray-600" />
               <div className="flex flex-col gap-3">
-                <p>{skills}</p>
+                <p>{cv.skills}</p>
               </div>
             </section>
           </div>

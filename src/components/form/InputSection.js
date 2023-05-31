@@ -1,72 +1,67 @@
 import dummy from "../../utils/dummy";
 import Input from "./Input";
 import Textarea from "./Textarea";
+import Button from "./Button";
+import { useState } from "react";
 
-export default function InputSection({
-  index,
-  setWorkSection,
-  workSection,
-  setEducationSection,
-  educationSection,
-  sectionName,
-}) {
-  function updateSection(index, key, value, sectionName) {
-    if (sectionName === "work") {
-      const newSections = [...workSection];
-      newSections[index][key] = value;
-      setWorkSection(newSections);
-    }
-
-    if (sectionName === "education") {
-      const newSections = [...educationSection];
-      newSections[index][key] = value;
-      setEducationSection(newSections);
-    }
-  }
-
+export default function InputSection({ index, cv, setCv }) {
   return (
     <>
       <hr className="col-span-2 border-b-2.5 border-gray-300 dark:border-gray-600" />
-      <section className="col-span-2 grid grid-cols-2 gap-3 work">
+      <section key={index} className="col-span-2 grid grid-cols-2 gap-3 work">
         <Input
-          label={sectionName === "work" ? "Company" : "Institution"}
-          placeholder={sectionName === "work" ? dummy.work.title : dummy.education.title}
+          // label={sectionName === "work" ? "Company" : "Institution"}
+          // placeholder={dummy.section.title}
           onChange={(e) => {
-            updateSection(index, "title", e.target.value, sectionName);
+            // updateWholeSection(currentSection, index, "title", e.target.value);
           }}
         />
         <Input
-          label={sectionName === "work" ? "Position" : "Degree"}
-          placeholder={
-            sectionName === "work" ? dummy.work.subTitle : dummy.education.subTitle
-          }
+          // label={sectionName === "work" ? "Position" : "Degree"}
+          // placeholder={dummy.section.subTitle}
           onChange={(e) => {
-            updateSection(index, "subTitle", e.target.value, sectionName);
+            // updateWholeSection(sectionName, index, "subTitle", e.target.value);
           }}
         />
         <Input
+          index={2}
           label="From"
           type="date"
           onChange={(e) => {
-            updateSection(index, "from", e.target.value, sectionName);
+            // updateWholeSection(sectionName, index, "from", e.target.value);
           }}
         />
         <Input
           label="Until"
           type="date"
           onChange={(e) => {
-            updateSection(index, "until", e.target.value, sectionName);
+            // updateWholeSection(sectionName, index, "until", e.target.value);
           }}
         />
+
         <Textarea
           label="Details"
-          placeholder={
-            sectionName === "work" ? dummy.work.details : dummy.education.details
-          }
+          // placeholder={dummy.section.details}
           onChange={(e) => {
-            updateSection(index, "details", e.target.value, sectionName);
+            // updateWholeSection(sectionName, index, "details", e.target.value);
           }}
         ></Textarea>
+
+        <div className="flex flex-col gap-2 col-span-2">
+          <label className="label">
+            <span className="label-text">Bullet Points</span>
+          </label>
+          {[].map((bulletPoint, bulletPointIndex) => (
+            <Input index={bulletPointIndex} className="col-span-2" onChange={(e) => {}} />
+          ))}
+          <Button label="Add Bullet Point" className="btn btn-ghost" onClick={() => {}} />
+
+          <Button
+            label="Remove Bullet Point"
+            className="btn btn-ghost"
+            onClick={() => {}}
+          />
+        </div>
       </section>
     </>
   );

@@ -1,6 +1,13 @@
-export default function Input({ label, placeholder, type, onChange }) {
+export default function Input({
+  index = 0,
+  label,
+  placeholder,
+  type,
+  onChange,
+  className,
+}) {
   return (
-    <div className="form-control col-span-1 w-full">
+    <div key={index} className={className || "form-control col-span-1 w-full"}>
       <label className="label">
         <span className="label-text">{label}</span>
       </label>
