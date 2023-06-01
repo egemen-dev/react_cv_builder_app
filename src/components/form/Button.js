@@ -1,5 +1,5 @@
 export default function Button({
-  className = "btn btn-outline btn-primary col-span-full",
+  className = "btn btn-outline btn-primary col-span-full flex-grow",
   label,
   onClick,
 }) {
