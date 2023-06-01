@@ -1,0 +1,27 @@
+{
+  "name": "John Doe",
+  "mail": "example@mail.com",
+  "phone": "0123456789",
+  "website": "linkedin / github",
+  "skills": "JavaScript, React, HTML, CSS",
+  "educations": [
+    {
+      "from": "01/01/2020",
+      "until": "01/01/2021",
+      "title": "Harvard",
+      "subTitle": "Computer Science",
+      "details": "Learned a lot of stuff about computers and studied a lot of stuff.",
+      "bulletPoints": ["Graduated with honors", "Overall GPA: 4.0"]
+    }
+  ],
+  "works": [
+    {
+      "from": "01/01/2020",
+      "until": "01/01/2021",
+      "title": "Google",
+      "subTitle": "Software Engineer",
+      "details": "Developed a lot of stuff with JavaScript and React.",
+      "bulletPoints": ["Boosted sales by 100%", "Increased productivity by 200%"]
+    }
+  ]
+}
