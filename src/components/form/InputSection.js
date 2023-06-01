@@ -4,23 +4,52 @@ import Textarea from "./Textarea";
 import Button from "./Button";
 import { useState } from "react";
 
-export default function InputSection({ index, cv, setCv }) {
+export default function InputSection({
+  sectionName,
+  index,
+  setEducations,
+  setWorks,
+  educations,
+  works,
+}) {
+  function update(sectionName, index, key, value) {
+    if (sectionName === "educations") {
+      const newEducations = [...educations];
+      newEducations[index][key] = value;
+      setEducations(newEducations);
+    }
+    if (sectionName === "works") {
+      const newWorks = [...works];
+      newWorks[index][key] = value;
+      setWorks(newWorks);
+    }
+  }
+
+  function getBulletPoints(sectionName, index) {
+    if (sectionName === "educations") {
+      return educations[index].bulletPoints;
+    }
+    if (sectionName === "works") {
+      return works[index].bulletPoints;
+    }
+  }
+
+  const [bulletPoints, setBulletPoints] = useState(getBulletPoints(sectionName, index));
+
   return (
     <>
       <hr className="col-span-2 border-b-2.5 border-gray-300 dark:border-gray-600" />
-      <section key={index} className="col-span-2 grid grid-cols-2 gap-3 work">
+      <section key={index} className="col-span-2 grid grid-cols-2 gap-6">
         <Input
-          // label={sectionName === "work" ? "Company" : "Institution"}
-          // placeholder={dummy.section.title}
+          label={sectionName === "work" ? "Company" : "Institution"}
           onChange={(e) => {
-            // updateWholeSection(currentSection, index, "title", e.target.value);
+            update(sectionName, index, "title", e.target.value);
           }}
         />
         <Input
-          // label={sectionName === "work" ? "Position" : "Degree"}
-          // placeholder={dummy.section.subTitle}
+          label={sectionName === "work" ? "Position" : "Degree"}
           onChange={(e) => {
-            // updateWholeSection(sectionName, index, "subTitle", e.target.value);
+            update(sectionName, index, "subTitle", e.target.value);
           }}
         />
         <Input
@@ -28,39 +57,63 @@ export default function InputSection({ index, cv, setCv }) {
           label="From"
           type="date"
           onChange={(e) => {
-            // updateWholeSection(sectionName, index, "from", e.target.value);
+            update(sectionName, index, "from", e.target.value);
           }}
         />
         <Input
           label="Until"
           type="date"
           onChange={(e) => {
-            // updateWholeSection(sectionName, index, "until", e.target.value);
+            update(sectionName, index, "until", e.target.value);
           }}
         />
-
         <Textarea
           label="Details"
-          // placeholder={dummy.section.details}
           onChange={(e) => {
-            // updateWholeSection(sectionName, index, "details", e.target.value);
+            const newDetails = e.target.value;
+            update(sectionName, index, "details", e.target.value);
           }}
         ></Textarea>
-
-        <div className="flex flex-col gap-2 col-span-2">
+        <div className="flex flex-col col-span-2 ">
           <label className="label">
             <span className="label-text">Bullet Points</span>
           </label>
-          {[].map((bulletPoint, bulletPointIndex) => (
-            <Input index={bulletPointIndex} className="col-span-2" onChange={(e) => {}} />
-          ))}
-          <Button label="Add Bullet Point" className="btn btn-ghost" onClick={() => {}} />
-
-          <Button
-            label="Remove Bullet Point"
-            className="btn btn-ghost"
-            onClick={() => {}}
-          />
+          <div className="border-2 border-gray-300 dark:border-gray-600 rounded-xl p-2.5">
+            {bulletPoints &&
+              bulletPoints.map((bulletPoint, bulletPointIndex) => (
+                <Input
+                  index={bulletPointIndex}
+                  onChange={(e) => {
+                    const newBulletPoints = [...bulletPoints];
+                    newBulletPoints[bulletPointIndex] = e.target.value;
+                    setBulletPoints(newBulletPoints);
+                    update(sectionName, index, "bulletPoints", newBulletPoints);
+                  }}
+                />
+              ))}
+            <div className="flex flex-row gap-2 justify-end py-8">
+              <Button
+                label="Remove Point"
+                className="btn btn-outline btn-error flex-grow"
+                onClick={() => {
+                  const newBulletPoints = [...bulletPoints];
+                  newBulletPoints.pop();
+                  setBulletPoints(newBulletPoints);
+                  update(sectionName, index, "bulletPoints", newBulletPoints);
+                }}
+              />
+              <Button
+                label="Add Point"
+                className="btn btn-outline btn-accent flex-grow"
+                onClick={() => {
+                  const newBulletPoints = [...bulletPoints];
+                  newBulletPoints.push("");
+                  setBulletPoints(newBulletPoints);
+                  update(sectionName, index, "bulletPoints", newBulletPoints);
+                }}
+              />
+            </div>
+          </div>
         </div>
       </section>
     </>
