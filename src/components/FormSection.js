@@ -2,7 +2,7 @@ import dummy from "../utils/dummy.json";
 import Input from "./form/Input";
 import Button from "./form/Button";
 import Textarea from "./form/Textarea";
-import InputSection from "./form/ExperienceSection";
+import ExperienceSection from "./form/ExperienceSection";
 import CollapsibleCard from "./form/CollapsibleCard";
 
 export default function FormSection({
@@ -44,7 +44,7 @@ export default function FormSection({
 
       <CollapsibleCard title="Education">
         {educations.map((item, index) => (
-          <InputSection
+          <ExperienceSection
             sectionName="educations"
             index={index}
             educations={educations}
@@ -74,7 +74,7 @@ export default function FormSection({
 
       <CollapsibleCard title="Work Experience">
         {works.map((item, index) => (
-          <InputSection
+          <ExperienceSection
             index={index}
             sectionName="works"
             works={works}
