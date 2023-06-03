@@ -1,8 +1,9 @@
 import Input from "./Input";
 import Textarea from "./Textarea";
-import Button from "./Button";
+import BulletPoints from "./BulletPoints";
 import { useState } from "react";
 
+// ExperienceSection is a component that is used to render the 'educations' and 'works' sections.
 export default function ExperienceSection({
   sectionName,
   index,
@@ -11,6 +12,7 @@ export default function ExperienceSection({
   educations,
   works,
 }) {
+  // This function is used to update the experience (educations or works) section array.
   function update(sectionName, index, key, value) {
     if (sectionName === "educations") {
       const newEducations = [...educations];
@@ -52,7 +54,6 @@ export default function ExperienceSection({
           }}
         />
         <Input
-          index={2}
           label="From"
           type="date"
           onChange={(e) => {
@@ -77,40 +78,13 @@ export default function ExperienceSection({
             <span className="label-text">Bullet Points</span>
           </label>
           <div className="border-2 border-gray-300 dark:border-gray-600 rounded-xl p-2.5">
-            {bulletPoints &&
-              bulletPoints.map((bulletPoint, bulletPointIndex) => (
-                <Input
-                  index={bulletPointIndex}
-                  onChange={(e) => {
-                    const newBulletPoints = [...bulletPoints];
-                    newBulletPoints[bulletPointIndex] = e.target.value;
-                    setBulletPoints(newBulletPoints);
-                    update(sectionName, index, "bulletPoints", newBulletPoints);
-                  }}
-                />
-              ))}
-            <div className="flex flex-row gap-2 justify-end py-8">
-              <Button
-                label="Remove Point"
-                className="btn btn-outline btn-error flex-grow"
-                onClick={() => {
-                  const newBulletPoints = [...bulletPoints];
-                  newBulletPoints.pop();
-                  setBulletPoints(newBulletPoints);
-                  update(sectionName, index, "bulletPoints", newBulletPoints);
-                }}
-              />
-              <Button
-                label="Add Point"
-                className="btn btn-outline btn-accent flex-grow"
-                onClick={() => {
-                  const newBulletPoints = [...bulletPoints];
-                  newBulletPoints.push("");
-                  setBulletPoints(newBulletPoints);
-                  update(sectionName, index, "bulletPoints", newBulletPoints);
-                }}
-              />
-            </div>
+            <BulletPoints
+              sectionName={sectionName}
+              index={index}
+              update={update}
+              bulletPoints={bulletPoints}
+              setBulletPoints={setBulletPoints}
+            />
           </div>
         </div>
       </section>
